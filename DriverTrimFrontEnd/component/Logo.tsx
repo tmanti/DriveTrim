@@ -1,4 +1,3 @@
-import React from 'react';
 import { Router, useRouter } from 'next/router';
 
 function Logo() {
