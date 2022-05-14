@@ -5,7 +5,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Box from '@mui/material/Box';
 
-export default function datePicker() {
+export default function DatePicker() {
   const [value, setValue] = React.useState<DateRange<Date>>([null, null]);
 
   return (
