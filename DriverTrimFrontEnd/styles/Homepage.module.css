@@ -1,0 +1,25 @@
+#container {
+    width:100%;
+    text-align:center;
+}
+
+#container > div {
+    width: calc(100% / 6);  
+    display: inline-block;
+    vertical-align: top;   
+    text-align:center;
+    margin:2%;    
+    padding:20px;
+}
+
+#logo {
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    margin-top: 100000;
+    margin-left: 1000000;
+}
+
+#background {
+    background: linear-gradient(270deg, rgba(2,0,36,1) 0%, rgba(0,116,255,1) 0%, rgba(0,219,255,1) 100%);
+}
