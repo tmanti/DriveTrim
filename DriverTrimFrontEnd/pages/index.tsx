@@ -12,7 +12,8 @@ export default function homePage() {
           <Logo/>
         </div>
         <div>
-          <DatePicker/>
+          <DatePicker name="Start Date"/>
+          <DatePicker name="End Date"/>
         </div>      
       </div>
   )
