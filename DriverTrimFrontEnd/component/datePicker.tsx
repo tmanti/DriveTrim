@@ -1,29 +1,21 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import { DateRangePicker, DateRange } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import Box from '@mui/material/Box';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function datePicker() {
-  const [value, setValue] = React.useState<DateRange<Date>>([null, null]);
+export default function BasicDatePicker() {
+  const [value, setValue] = React.useState<Date | null>(null);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DateRangePicker
-        startText="Trim Start Date"
-        endText="Trim End Date"
+      <DatePicker
+        label="Basic example"
         value={value}
         onChange={(newValue) => {
           setValue(newValue);
         }}
-        renderInput={(startProps, endProps) => (
-          <React.Fragment>
-            <TextField {...startProps} />
-            <Box sx={{ mx: 2 }}> to </Box>
-            <TextField {...endProps} />
-          </React.Fragment>
-        )}
+        renderInput={(params) => <TextField {...params} />}
       />
     </LocalizationProvider>
   );
