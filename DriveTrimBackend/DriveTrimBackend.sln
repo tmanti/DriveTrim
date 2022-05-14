@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriveTrimBackend", "DriveTrimBackend\DriveTrimBackend.csproj", "{5BD3A5B6-F10B-40A3-BC7A-588CFA48B025}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageComparisons", "ImageComparisons\ImageComparisons.csproj", "{42BBFE1A-5476-49CE-98E4-ECC685E7379C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BD3A5B6-F10B-40A3-BC7A-588CFA48B025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD3A5B6-F10B-40A3-BC7A-588CFA48B025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BD3A5B6-F10B-40A3-BC7A-588CFA48B025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BD3A5B6-F10B-40A3-BC7A-588CFA48B025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42BBFE1A-5476-49CE-98E4-ECC685E7379C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42BBFE1A-5476-49CE-98E4-ECC685E7379C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42BBFE1A-5476-49CE-98E4-ECC685E7379C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42BBFE1A-5476-49CE-98E4-ECC685E7379C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
