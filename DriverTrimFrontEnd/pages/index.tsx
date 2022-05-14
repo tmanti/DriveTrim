@@ -7,19 +7,19 @@ import DatePicker from '../component/DatePicker'
 
 export default function homePage() {
   return(
-      <div id={styles.background}> 
-        <div id={styles.logo}>
-          <Logo/>
-        </div>
-        <div id={styles.container}>
-          <div>
-            <DatePicker name="Start Date"/>
-          </div>
-          <div>
-            <DatePicker name="End Date"/>
-          </div>
-        </div>      
+    <div id={styles.background}>
+      <div id={styles.logo}>
+        <Logo/>
       </div>
+      <div id={styles.container}>
+        <div>
+          <DatePicker name="Start Date"/>
+        </div>
+        <div>
+          <DatePicker name="End Date"/>
+        </div>
+      </div>      
+    </div>
   )
 }
 
