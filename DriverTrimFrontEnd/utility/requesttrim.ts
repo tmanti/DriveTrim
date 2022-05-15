@@ -1,13 +1,10 @@
-
-
-
 interface date {
     day:Number,
     month:Number,
     year:Number
 }
 
-function requesttrim(access_token:string, start_date:date, end_date:date, callback:any){
+function requesttrim(access_token:string, start_date:any, end_date:any, callback:any){
     let headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
