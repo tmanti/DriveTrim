@@ -35,14 +35,47 @@ namespace DriveTrimBackend
             
             client.Dispose();
             
-            ComputeBaskets(googleApi, trim, hists);
+            ComputeBaskets(job, googleApi, trim, hists);
         }
         
-        public static void ComputeBaskets(GoogleAPI googleApi, TrimRequest trim, Dictionary<string, Histogram> hists)//put baskets into db
+        public static void ComputeBaskets(string job, GoogleAPI googleApi, TrimRequest trim, Dictionary<string, Histogram> hists)//put baskets into db
         {
+            bool album = false;
+            string curr_albumn = "";
+            string token = trim.Access_Token;
             
+            foreach (string key in hists.Keys)
+            {
+                if (hists.ContainsKey(key))
+                {
+                    Histogram curr = hists[key];
+                    hists.Remove(key);
+                    foreach (string k in hists.Keys)
+                    {
+                        Histogram comp = hists[k];
+                        if (curr.ComputeDistance(comp) < 0.05f)
+                        {
+                            if (album)
+                            {
+                                googleApi.DB.AddHist(job, curr_albumn, k, comp.ToString());
+                            }
+                            else
+                            {
+                                album = true;
+                                curr_albumn = key;
+                                googleApi.DB.NewAlbum(job, curr_albumn, key, curr.ToString(), k, comp.ToString());
+                            }
+                        }
+                    }
+
+                    album = false;
+                    curr_albumn = "";
+                }
+            }
+            googleApi.DB.finishJob(job);
+            googleApi.submit_albums(token, job);
         }
-        
+
         public static Histogram ComputeHistogram(String pathToFile)
         {
             Histogram histogram = new Histogram();

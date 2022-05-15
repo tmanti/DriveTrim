@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Npgsql;
 
 namespace DriveTrimBackend.Utilities
@@ -43,7 +44,7 @@ namespace DriveTrimBackend.Utilities
 
         public async void StartJob(string job)
         {
-            await using var cmd = new NpgsqlCommand("SELECT JOBSTATUS FROM USERS WHERE USER = (@p1)")
+            await using var cmd = new NpgsqlCommand("SELECT JOBSTATUS FROM USERS WHERE USER = (@p1);")
             {
                 Parameters =
                 {
@@ -70,7 +71,7 @@ namespace DriveTrimBackend.Utilities
             {
                 BatchCommands =
                 {
-                    new ("INSERT INTO USERS VALUES (@p1), 0"){
+                    new ("INSERT INTO USERS VALUES (@p1), 0;"){
                         Parameters =
                         {
                             new("p1", job),
@@ -97,7 +98,7 @@ namespace DriveTrimBackend.Utilities
             {
                 BatchCommands =
                 {
-                    new("INSERT INTO (@p1) VALUES (@p1)-(@p2)")
+                    new("INSERT INTO (@p1) VALUES (@p1)-(@p2);")
                     {
                         Parameters =
                         {
@@ -142,6 +143,66 @@ namespace DriveTrimBackend.Utilities
             };
 
             await batch.ExecuteNonQueryAsync(); 
+        }
+
+        public async void finishJob(string job)
+        {
+            await using var cmd = new NpgsqlCommand("UPDATE USERS SET JOBSTATUS = 1, WHERE USER = (@p1)")
+            {
+                Parameters =
+                {
+                    new("p1", job)
+                }
+            };
+
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        public List<string> getAlbums(string job)
+        {
+            using var cmd = new NpgsqlCommand("SELECT * FROM (@p1);")
+            {
+                Parameters =
+                {
+                    new("p1", job)
+                }
+            };
+            
+            using var reader = cmd.ExecuteReader();
+
+            List<string> albums = new List<string>();
+
+            while (reader.Read())
+            {
+                string val = reader.GetString(0);
+                albums.Add(val);
+            }
+
+            return albums;
+        }
+
+        public List<string> getIds(string job, string album)
+        {
+            using var cmd = new NpgsqlCommand("SELECT HISTID FROM (@p1)-(@p2);")
+            {
+                Parameters =
+                {
+                    new("p1", job),
+                    new("p2", album)
+                }
+            };
+            
+            using var reader = cmd.ExecuteReader();
+
+            List<string> ids = new List<string>();
+            
+            while (reader.Read())
+            {
+                string val = reader.GetString(0);
+                ids.Add(val);
+            }
+
+            return ids;
         }
     }
 }

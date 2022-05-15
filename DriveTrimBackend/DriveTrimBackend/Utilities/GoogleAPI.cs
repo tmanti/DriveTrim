@@ -49,7 +49,7 @@ namespace DriveTrimBackend
             }
         }
         
-        public Album create_album(string Token, string name)
+        public Album create_album(string token, string name)
         {
             UserCredential credential; //= new UserCredential(float, userId, token, "DriveTrim"); // import token from request
 
@@ -70,7 +70,7 @@ namespace DriveTrimBackend
             return req;
         }
 
-        public IList<MediaItem> get_range(string Token, TrimDate start, TrimDate end)
+        public IList<MediaItem> get_range(string token, TrimDate start, TrimDate end)
         {
             UserCredential credential; //= new UserCredential(float, userId, token, "DriveTrim"); // import token from request
 
@@ -102,7 +102,7 @@ namespace DriveTrimBackend
             return req.MediaItems;
         }
 
-        public MediaItem get_media(string Token, string id)
+        public MediaItem get_media(string token, string id)
         {
             UserCredential credential; //= new UserCredential(float, userId, token, "DriveTrim"); // import token from request
 
@@ -116,10 +116,22 @@ namespace DriveTrimBackend
             return service.MediaItems.Get(id).Execute();
         }
 
-        public void add_to_albumn(string Token, string albumnid, string[] mid)
+        public void submit_albums(string token, string job)
+        {
+            List<string> albums = DB.getAlbums(job);
+            foreach (string al in albums)
+            {
+                List<String> ids = DB.getIds(job, al);
+                string drive_name = al.Substring(al.Length - 5, al.Length - 1);
+                Album new_alb = create_album(token, drive_name);
+                add_to_albumn(token, new_alb.Id, ids.ToArray());
+            }
+        }
+        
+        public void add_to_albumn(string token, string albumnid, string[] mid)
         {
             HttpClient httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var json = JsonSerializer.Serialize(new AlbumRequest
             {
