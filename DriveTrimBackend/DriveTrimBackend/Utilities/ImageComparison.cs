@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net.Http;
+using System.Text.Json;
 using Google.Apis.PhotosLibrary.v1.Data;
 
 namespace DriveTrimBackend
@@ -11,6 +12,8 @@ namespace DriveTrimBackend
     {
         public static async void Compare(GoogleAPI googleApi, TrimRequest trim)
         {
+            Console.WriteLine(JsonSerializer.Serialize(trim));
+            
             IList<MediaItem> col = googleApi.get_range(trim.Access_Token, trim.Start_Date, trim.End_Date);
 
             HttpClient client = new HttpClient();
