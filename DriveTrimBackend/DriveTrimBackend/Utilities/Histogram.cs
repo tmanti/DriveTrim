@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Drawing;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DriveTrimBackend
 {
     public class Histogram
     {
-        private float total;
+        [JsonInclude]
+        public float Total;
         
-        protected float[] _redHist; //52 each
-        protected float[] _greenHist; //52 each
-        protected float[] _blueHist; //52 each
+        [JsonInclude]
+        public float[] RedHist; //52 each
+        [JsonInclude]
+        public float[] GreenHist; //52 each
+        [JsonInclude]
+        public float[] BlueHist; //52 each
 
         //public int[] texture_direction_hist;
         //public int[] texture_scale_hist;
@@ -17,25 +23,25 @@ namespace DriveTrimBackend
         
         public Histogram()
         {
-            _redHist = new float[] {0, 0, 0, 0, 0};
-            _greenHist = new float[] {0, 0, 0, 0, 0};
-            _blueHist = new float[] {0, 0, 0, 0, 0};
-            total = 0;
+            RedHist = new float[] {0, 0, 0, 0, 0};
+            GreenHist = new float[] {0, 0, 0, 0, 0};
+            BlueHist = new float[] {0, 0, 0, 0, 0};
+            Total = 0;
         }
 
         private void Count_Red(byte val)
         {
-            _redHist[val / 52]++;
+            RedHist[val / 52]++;
         }
 
         private void Count_Green(byte val)
         {
-            _greenHist[val / 52]++;
+            GreenHist[val / 52]++;
         }
 
         private void Count_Blue(byte val)
         {
-            _blueHist[val / 52]++;
+            BlueHist[val / 52]++;
         }
 
         public void Count_Color(Color color)
@@ -46,14 +52,14 @@ namespace DriveTrimBackend
             Count_Green(g);
             byte b = color.B;
             Count_Blue(b);
-            total++;
+            Total++;
         }
 
         public void Normalize()
         {
-            normalize_arr(_redHist, total);
-            normalize_arr(_greenHist, total);
-            normalize_arr(_blueHist, total);
+            normalize_arr(RedHist, Total);
+            normalize_arr(GreenHist, Total);
+            normalize_arr(BlueHist, Total);
         }
 
         private void normalize_arr(float[] arr, float count)
@@ -66,16 +72,16 @@ namespace DriveTrimBackend
 
         public void Print_Hist()
         {
-            Console.WriteLine("Red: " + String.Join(",", _redHist) + " | Green: " + String.Join(",", _greenHist) + " | Blue: " + String.Join(",", _blueHist));
+            Console.WriteLine(JsonSerializer.Serialize(this));
         }
         
         public float ComputeDistance(Histogram B)
         {
             float dist = 0;
 
-            dist += ChiDistance(_redHist, B._redHist);
-            dist += ChiDistance(_greenHist, B._greenHist);
-            dist += ChiDistance(_blueHist, B._blueHist);
+            dist += ChiDistance(RedHist, B.RedHist);
+            dist += ChiDistance(GreenHist, B.GreenHist);
+            dist += ChiDistance(BlueHist, B.BlueHist);
 
             return dist;
         }

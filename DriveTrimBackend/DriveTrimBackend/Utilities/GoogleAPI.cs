@@ -6,7 +6,6 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.PhotosLibrary.v1;
 using Google.Apis.PhotosLibrary.v1.Data;
 using Google.Apis.Services;
-using Newtonsoft.Json;
 
 
 namespace DriveTrimBackend
@@ -39,14 +38,10 @@ namespace DriveTrimBackend
             }
         }
         
-        public void create_album(String name)
+        public void create_album(String Token, String name)
         {
-            UserCredential credential;
-            using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
-            {
-                //credential = ;
-            }
-            
+            UserCredential credential; //= new UserCredential(float, userId, token, "DriveTrim"); // import token from request
+
             PhotosLibraryService service = new PhotosLibraryService(new BaseClientService.Initializer
             {
                 //HttpClientInitializer = credential,
@@ -63,14 +58,10 @@ namespace DriveTrimBackend
             Album req = service.Albums.Create(albumRequest).Execute();
         }
 
-        public IList<MediaItem> get_range(TrimDate start, TrimDate end)
+        public IList<MediaItem> get_range(String Token, TrimDate start, TrimDate end)
         {
-            UserCredential credential;
-            using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
-            {
-                //credential = ;
-            }
-            
+            UserCredential credential; //= new UserCredential(float, userId, token, "DriveTrim"); // import token from request
+
             PhotosLibraryService service = new PhotosLibraryService(new BaseClientService.Initializer
             {
                 //HttpClientInitializer = credential,
@@ -97,6 +88,20 @@ namespace DriveTrimBackend
             
             SearchMediaItemsResponse req = service.MediaItems.Search(searchRequest).Execute();
             return req.MediaItems;
+        }
+
+        public MediaItem get_media(String Token, String id)
+        {
+            UserCredential credential; //= new UserCredential(float, userId, token, "DriveTrim"); // import token from request
+
+            PhotosLibraryService service = new PhotosLibraryService(new BaseClientService.Initializer
+            {
+                //HttpClientInitializer = credential,
+                ApplicationName = "DriveTrim",
+            });
+
+
+            return service.MediaItems.Get(id).Execute();
         }
     }
 }
