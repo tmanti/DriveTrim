@@ -1,12 +1,13 @@
+import Layout from "../components/layout"
 import styles from '../styles/Homepage.module.css'
-import Logo from '../component/Logo'
-import ColorButton from '../component/Button'
-import DatePicker from '../component/DatePicker'
-import GoogleButton from '../component/GoogleButton'
+import Logo from '../components/Logo'
+import ColorButton from '../components/Button'
+import DatePicker from '../components/DatePicker'
 
-export default function homePage() {
-  return(
-    <div id={styles.background}>
+export default function IndexPage() {
+  return (
+    <Layout>
+      <div id={styles.background}>
       <div id={styles.logo}>
         <Logo/>
       </div>
@@ -25,13 +26,7 @@ export default function homePage() {
           <ColorButton/>
         </div>
       </div>
-      <div id={styles.button}>
-        <div>
-          <GoogleButton/>
-        </div>
-      </div>    
     </div>
+    </Layout>
   )
 }
-
-export {}

@@ -1,3 +1,0 @@
-# DriveTrim
-
-HELLO WORLD
