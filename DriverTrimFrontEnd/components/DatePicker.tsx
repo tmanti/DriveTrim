@@ -10,7 +10,7 @@ interface LabelName{
 
 export default function BasicDatePicker({name}:LabelName) {
   const [value, setValue] = React.useState<Date | null>(null);
-
+console.log({value});
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
