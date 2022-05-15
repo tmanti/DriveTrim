@@ -1,10 +1,8 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Homepage.module.css'
 import Logo from '../component/Logo'
 import ColorButton from '../component/Button'
 import DatePicker from '../component/DatePicker'
+import GoogleButton from '../component/GoogleButton'
 
 export default function homePage() {
   return(
@@ -25,6 +23,11 @@ export default function homePage() {
       <div id={styles.button}>
         <div>
           <ColorButton/>
+        </div>
+      </div>
+      <div id={styles.button}>
+        <div>
+          <GoogleButton/>
         </div>
       </div>    
     </div>
