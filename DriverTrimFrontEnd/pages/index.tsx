@@ -11,7 +11,7 @@ import { requesttrim } from "../utility/requesttrim"
 
 export default function IndexPage() {
   const session = useSession()
-
+  let returned = null;
   const [date1, setValue1] = React.useState<Date | null>(null);
   const [date2, setValue2] = React.useState<Date | null>(null);
 
@@ -38,7 +38,8 @@ export default function IndexPage() {
       }
     }
 
-    requesttrim(JSON.stringify(session), start, end, ()=>{
+    requesttrim(JSON.stringify(session), start, end, (ret: any)=>{
+      returned = ret;
       console.log("work pls");
     });
   }
@@ -69,6 +70,15 @@ export default function IndexPage() {
                </Button>
               </Stack>
           :null
+          }
+        </div>
+        <div>
+          {
+            returned?
+              <h3>
+                Trim Request Received 
+              </h3>
+            :null
           }
         </div>
       </div>
