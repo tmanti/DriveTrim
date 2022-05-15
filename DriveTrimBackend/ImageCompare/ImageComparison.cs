@@ -16,7 +16,6 @@ namespace ImageCompare
             int h = size.Height;
             int w = size.Width;
 
-            int pixelcnt = 0;
 
             for (int x = 0; x < w; x++)
             {
@@ -24,13 +23,13 @@ namespace ImageCompare
                 {
                     Color clr = bmp.GetPixel(x, y);
                     histogram.Count_Color(clr);
-                    pixelcnt++;
                 }
             }
 
             histogram.Print_Hist();
-            Console.WriteLine(pixelcnt);
-            
+            histogram.Normalize();
+            histogram.Print_Hist();
+
             return histogram;
         }
     }
