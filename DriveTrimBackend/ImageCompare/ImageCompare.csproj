@@ -7,6 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Gkmo.Google.Apis.PhotosLibrary.v1" Version="1.36.1.1471" />
+      <PackageReference Include="Google.Apis" Version="1.57.0" />
+      <PackageReference Include="Google.Apis.Auth" Version="1.57.0" />
+      <PackageReference Include="Google.Apis.Core" Version="1.57.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     </ItemGroup>
 
