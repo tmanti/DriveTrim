@@ -15,6 +15,12 @@ namespace DriveTrimBackend
 
             HttpClient client = new HttpClient();
             
+            //get name from client name
+            string job = "testjob";
+            googleApi.DB.StartJob(job);
+            
+            Dictionary<string, Histogram> hists = new Dictionary<string, Histogram>();
+
             foreach(MediaItem mi in col)
             {
                 string baseurl = mi.BaseUrl+"=500w-500h";
@@ -22,12 +28,17 @@ namespace DriveTrimBackend
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "temp.jpg");
                 await File.WriteAllBytesAsync(path, bytes);
                 Histogram hist = ComputeHistogram(path);
+                hist.Name = mi.Filename;
+                hists.Add(mi.Id, hist);
+                File.Delete(path);
             }
             
             client.Dispose();
+            
+            ComputeBaskets(googleApi, trim, hists);
         }
         
-        public static void ComputeBaskets(int[] ids)//put baskets into db
+        public static void ComputeBaskets(GoogleAPI googleApi, TrimRequest trim, Dictionary<string, Histogram> hists)//put baskets into db
         {
             
         }

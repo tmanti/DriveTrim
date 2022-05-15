@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
+using DriveTrimBackend.Utilities;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.PhotosLibrary.v1;
 using Google.Apis.PhotosLibrary.v1.Data;
@@ -12,18 +18,23 @@ namespace DriveTrimBackend
 {
     public class GoogleAPI
     {
-        private const String api = "https://photoslibrary.googleapis.com/v1";
-        
         public enum Request
         {
             CreateAlbum,
             AddToAlbum,
         }
 
+        private string api = "https://photoslibrary.googleapis.com/v1";
+
         private GoogleClientSecrets client;
+
+        public DBUtils DB;
 
         public GoogleAPI()
         {
+            DB = new DBUtils();
+            DB.initDB();
+            
             string file_name = "clientsecret.json";
             using (StreamReader r = new StreamReader(file_name))
             {
@@ -38,7 +49,7 @@ namespace DriveTrimBackend
             }
         }
         
-        public void create_album(String Token, String name)
+        public Album create_album(string Token, string name)
         {
             UserCredential credential; //= new UserCredential(float, userId, token, "DriveTrim"); // import token from request
 
@@ -56,9 +67,10 @@ namespace DriveTrimBackend
             };
 
             Album req = service.Albums.Create(albumRequest).Execute();
+            return req;
         }
 
-        public IList<MediaItem> get_range(String Token, TrimDate start, TrimDate end)
+        public IList<MediaItem> get_range(string Token, TrimDate start, TrimDate end)
         {
             UserCredential credential; //= new UserCredential(float, userId, token, "DriveTrim"); // import token from request
 
@@ -90,7 +102,7 @@ namespace DriveTrimBackend
             return req.MediaItems;
         }
 
-        public MediaItem get_media(String Token, String id)
+        public MediaItem get_media(string Token, string id)
         {
             UserCredential credential; //= new UserCredential(float, userId, token, "DriveTrim"); // import token from request
 
@@ -102,6 +114,23 @@ namespace DriveTrimBackend
 
 
             return service.MediaItems.Get(id).Execute();
+        }
+
+        public void add_to_albumn(string Token, string albumnid, string[] mid)
+        {
+            HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
+            var json = JsonSerializer.Serialize(new AlbumRequest
+            {
+                mediaItemIds = mid,
+            });
+            
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var result = httpClient.PostAsync(this.api + "/albums/" + albumnid + ":batchAddMediaItems", data);
+            
+            httpClient.Dispose();
         }
     }
 }
