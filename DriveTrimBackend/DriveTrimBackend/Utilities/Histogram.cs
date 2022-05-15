@@ -8,6 +8,9 @@ namespace DriveTrimBackend
     public class Histogram
     {
         [JsonInclude]
+        public string Name;
+        
+        [JsonInclude]
         public float Total;
         
         [JsonInclude]
@@ -23,6 +26,7 @@ namespace DriveTrimBackend
         
         public Histogram()
         {
+            Name = "";
             RedHist = new float[] {0, 0, 0, 0, 0};
             GreenHist = new float[] {0, 0, 0, 0, 0};
             BlueHist = new float[] {0, 0, 0, 0, 0};
