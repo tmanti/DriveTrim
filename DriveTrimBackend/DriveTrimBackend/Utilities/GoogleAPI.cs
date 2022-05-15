@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.PhotosLibrary.v1;
 using Google.Apis.PhotosLibrary.v1.Data;
@@ -7,7 +9,7 @@ using Google.Apis.Services;
 using Newtonsoft.Json;
 
 
-namespace ImageCompare
+namespace DriveTrimBackend
 {
     public class GoogleAPI
     {
@@ -53,18 +55,48 @@ namespace ImageCompare
 
             CreateAlbumRequest albumRequest = new CreateAlbumRequest()
             {
-                Album =
-                {
+                Album = new Album{
                     Title = name
                 }
             };
 
-            AlbumsResource.CreateRequest req = service.Albums.Create(albumRequest);
+            Album req = service.Albums.Create(albumRequest).Execute();
         }
 
-        public void get_range()
+        public IList<MediaItem> get_range(TrimDate start, TrimDate end)
         {
+            UserCredential credential;
+            using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
+            {
+                //credential = ;
+            }
             
+            PhotosLibraryService service = new PhotosLibraryService(new BaseClientService.Initializer
+            {
+                //HttpClientInitializer = credential,
+                ApplicationName = "DriveTrim",
+            });
+
+            List<DateRange> dateRanges = new List<DateRange>();
+            dateRanges.Append(new DateRange()
+            {
+                StartDate = start.getDate(),
+                EndDate = end.getDate(),
+            });
+
+            SearchMediaItemsRequest searchRequest = new SearchMediaItemsRequest()
+            {
+                Filters = new Filters
+                {
+                    DateFilter = new DateFilter
+                    {
+                        Ranges = dateRanges
+                    }
+                }
+            };
+            
+            SearchMediaItemsResponse req = service.MediaItems.Search(searchRequest).Execute();
+            return req.MediaItems;
         }
     }
 }

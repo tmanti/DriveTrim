@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Drawing;
 
-namespace ImageCompare
+namespace DriveTrimBackend
 {
     public class ImageComparison
     {
+        public static async void Compare(GoogleAPI googleApi, TrimRequest trim)
+        {
+            
+        }
+        
         public static Histogram ComputeHistogram(String pathToFile)
         {
             Histogram histogram = new Histogram();
@@ -33,7 +38,7 @@ namespace ImageCompare
             return histogram;
         }
 
-        public static void ComputeRange(int[] ids)
+        public static void ComputeBaskets(int[] ids)//put baskets into db
         {
             
         }
